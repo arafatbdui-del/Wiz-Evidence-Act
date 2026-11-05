@@ -1,0 +1,19 @@
+workflows:
+  android-release:
+    name: Evidence Act BD - Android release APK
+    max_build_duration: 30
+    instance_type: mac_mini_m2
+    environment:
+      flutter: stable
+      java: 17
+    scripts:
+      - name: Get dependencies
+        script: flutter pub get
+      - name: Static analysis
+        script: flutter analyze
+      - name: Unit tests
+        script: flutter test
+      - name: Build release APK
+        script: flutter build apk --release
+    artifacts:
+      - build/app/outputs/flutter-apk/app-release.apk
