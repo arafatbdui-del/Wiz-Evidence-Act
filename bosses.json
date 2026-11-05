@@ -1,0 +1,134 @@
+{
+ "ch02": {
+  "chapterId": "ch02",
+  "title": "Boss battle: The Police Station Confession",
+  "scenario": "X is accused of robbery. While in police custody, X tells the investigating officer, with no Magistrate present, that he took the money. At trial the prosecution wants to prove this.",
+  "passPercent": 60,
+  "xpReward": 40,
+  "questions": [
+   {
+    "sectionRef": "s25",
+    "question": "Which section most directly bars proving this statement against X?",
+    "options": [
+     "s.25",
+     "s.115",
+     "s.126",
+     "s.4"
+    ],
+    "answer": 0,
+    "explanation": "s.25: no confession made to a police-officer shall be proved against a person accused of any offence."
+   },
+   {
+    "sectionRef": "s26",
+    "question": "If X had made it in police custody, what does s.26 additionally require for it to be proved?",
+    "options": [
+     "Presence of a Magistrate",
+     "Presence of an advocate",
+     "Presence of two villagers",
+     "Nothing"
+    ],
+    "answer": 0,
+    "explanation": "s.26: unless made in the immediate presence of a Magistrate."
+   },
+   {
+    "sectionRef": "s24",
+    "question": "If an officer of authority had promised X leniency in reference to the charge, which section would make the confession irrelevant in a criminal proceeding?",
+    "options": [
+     "s.24",
+     "s.32",
+     "s.102",
+     "s.118"
+    ],
+    "answer": 0,
+    "explanation": "s.24 covers inducement, threat or promise from a person in authority."
+   }
+  ]
+ },
+ "ch03": {
+  "chapterId": "ch03",
+  "title": "Boss battle: The Last Words",
+  "scenario": "V is fatally injured and, before dying, tells a neighbour who attacked him and how. V did not say he expected to die. The cause of V's death is in question at the trial.",
+  "passPercent": 60,
+  "xpReward": 40,
+  "questions": [
+   {
+    "sectionRef": "s32",
+    "question": "Which provision may make V's statement relevant?",
+    "options": [
+     "s.32(1)",
+     "s.25",
+     "s.106",
+     "s.122"
+    ],
+    "answer": 0,
+    "explanation": "s.32(1): statement as to the cause of death or circumstances of the transaction that resulted in death."
+   },
+   {
+    "sectionRef": "s32",
+    "question": "Does the absence of any expectation of death make the statement irrelevant?",
+    "options": [
+     "Yes",
+     "No - relevant whether or not under expectation of death",
+     "Only in civil cases",
+     "Only if a Magistrate recorded it"
+    ],
+    "answer": 1,
+    "explanation": "The text of s.32(1) says so expressly."
+   }
+  ]
+ },
+ "ch07": {
+  "chapterId": "ch07",
+  "title": "Boss battle: The Ticketless Traveller",
+  "scenario": "A sues B for land B possesses, claiming it passed to A under a will. Separately, C is charged with travelling by rail without a ticket.",
+  "passPercent": 60,
+  "xpReward": 40,
+  "questions": [
+   {
+    "sectionRef": "s102",
+    "question": "In A's suit, on whom is the burden (if no evidence were given by either side B keeps possession)?",
+    "options": [
+     "A",
+     "B",
+     "The Court",
+     "C"
+    ],
+    "answer": 0,
+    "explanation": "s.102 illustration (a): B would retain possession, so the burden is on A."
+   },
+   {
+    "sectionRef": "s106",
+    "question": "Who must prove C had a ticket?",
+    "options": [
+     "The railway",
+     "C",
+     "The Court",
+     "The Magistrate"
+    ],
+    "answer": 1,
+    "explanation": "s.106 illustration (b)."
+   }
+  ]
+ },
+ "ch08": {
+  "chapterId": "ch08",
+  "title": "Boss battle: The Land Sale",
+  "scenario": "A intentionally and falsely leads B to believe certain land is A's, and B buys and pays for it. The land later becomes A's property and A sues B to recover it.",
+  "passPercent": 60,
+  "xpReward": 40,
+  "questions": [
+   {
+    "sectionRef": "s115",
+    "question": "Which principle prevents A from denying that the land was his to sell?",
+    "options": [
+     "Estoppel (s.115)",
+     "Burden (s.102)",
+     "Privilege (s.126)",
+     "Competence (s.118)"
+    ],
+    "answer": 0,
+    "explanation": "s.115 and its illustration."
+   }
+  ]
+ }
+}

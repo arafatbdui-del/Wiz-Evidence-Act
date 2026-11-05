@@ -1,0 +1,362 @@
+[
+ {
+  "questionId": "q001",
+  "sectionId": "s5",
+  "chapterId": "ch01",
+  "questionTextEnglish": "Under section 5, what kinds of facts may generally be proved?",
+  "questionTextBangla": null,
+  "optionsEnglish": [
+   "Every fact a party wants to mention",
+   "Facts in issue and facts declared relevant by the Act",
+   "Only facts admitted by the other party",
+   "Only documentary facts"
+  ],
+  "optionsBangla": null,
+  "correctAnswer": 1,
+  "explanationEnglish": "Section 5 limits evidence to facts in issue and other facts declared relevant by the Act.",
+  "explanationBangla": null,
+  "difficulty": "easy",
+  "xpReward": 5,
+  "source": "starter"
+ },
+ {
+  "questionId": "q002",
+  "sectionId": "s6",
+  "chapterId": "ch01",
+  "questionTextEnglish": "Which principle is expressed in section 6?",
+  "questionTextBangla": null,
+  "optionsEnglish": [
+   "Best evidence rule",
+   "Same transaction (res gestae) relevance",
+   "Burden of proof",
+   "Estoppel"
+  ],
+  "optionsBangla": null,
+  "correctAnswer": 1,
+  "explanationEnglish": "Section 6 treats facts forming part of the same transaction as relevant, even if they occurred at different times or places.",
+  "explanationBangla": null,
+  "difficulty": "easy",
+  "xpReward": 5,
+  "source": "starter"
+ },
+ {
+  "questionId": "q003",
+  "sectionId": "s60",
+  "chapterId": "ch06",
+  "questionTextEnglish": "What does section 60 require for oral evidence?",
+  "questionTextBangla": null,
+  "optionsEnglish": [
+   "It must be direct",
+   "It must always be written",
+   "It must be expert evidence",
+   "It must be corroborated by two witnesses"
+  ],
+  "optionsBangla": null,
+  "correctAnswer": 0,
+  "explanationEnglish": "Section 60 requires direct oral evidence from a person who personally perceived the fact.",
+  "explanationBangla": null,
+  "difficulty": "easy",
+  "xpReward": 5,
+  "source": "starter"
+ },
+ {
+  "questionId": "q004",
+  "sectionId": "s65a",
+  "chapterId": "ch06",
+  "questionTextEnglish": "Which section directs proof of digital-record contents according to section 65B?",
+  "questionTextBangla": null,
+  "optionsEnglish": [
+   "Section 5",
+   "Section 59",
+   "Section 65A",
+   "Section 101"
+  ],
+  "optionsBangla": null,
+  "correctAnswer": 2,
+  "explanationEnglish": "Section 65A states that contents of digital records may be proved in accordance with section 65B.",
+  "explanationBangla": null,
+  "difficulty": "easy",
+  "xpReward": 5,
+  "source": "starter"
+ },
+ {
+  "questionId": "q005",
+  "sectionId": "s101",
+  "chapterId": "ch07",
+  "questionTextEnglish": "Who must prove facts asserted as the basis of a requested judgment under section 101?",
+  "questionTextBangla": null,
+  "optionsEnglish": [
+   "Always the defendant",
+   "The person asserting those facts",
+   "The Court registry",
+   "Any available witness"
+  ],
+  "optionsBangla": null,
+  "correctAnswer": 1,
+  "explanationEnglish": "Section 101 places the burden on the person who asserts the facts on which the requested judgment depends.",
+  "explanationBangla": null,
+  "difficulty": "easy",
+  "xpReward": 5,
+  "source": "starter"
+ },
+ {
+  "questionId": "q006",
+  "sectionId": "s25",
+  "chapterId": "ch02",
+  "questionTextEnglish": "Under section 25, may a confession made to a police-officer be proved against the person accused of an offence?",
+  "questionTextBangla": null,
+  "optionsEnglish": [
+   "Yes, if it was voluntary",
+   "No - it shall not be proved as against the accused",
+   "Only if the accused signed it",
+   "Only in civil cases"
+  ],
+  "optionsBangla": null,
+  "correctAnswer": 1,
+  "explanationEnglish": "Section 25: no confession made to a police-officer shall be proved as against a person accused of any offence.",
+  "explanationBangla": null,
+  "difficulty": "easy",
+  "xpReward": 5,
+  "source": "starter"
+ },
+ {
+  "questionId": "q007",
+  "sectionId": "s26",
+  "chapterId": "ch02",
+  "questionTextEnglish": "Under section 26, a confession made while the accused is in police custody can be proved only if made in the immediate presence of whom?",
+  "questionTextBangla": null,
+  "optionsEnglish": [
+   "A senior police officer",
+   "A village headman",
+   "A Magistrate",
+   "Any two witnesses"
+  ],
+  "optionsBangla": null,
+  "correctAnswer": 2,
+  "explanationEnglish": "Section 26 excludes confessions made in police custody unless made in the immediate presence of a Magistrate (the Explanation limits who counts as a Magistrate).",
+  "explanationBangla": null,
+  "difficulty": "medium",
+  "xpReward": 5,
+  "source": "starter"
+ },
+ {
+  "questionId": "q008",
+  "sectionId": "s24",
+  "chapterId": "ch02",
+  "questionTextEnglish": "Under section 24, a confession in a criminal proceeding is irrelevant if caused by an inducement, threat or promise proceeding from whom?",
+  "questionTextBangla": null,
+  "optionsEnglish": [
+   "A co-accused",
+   "A person in authority",
+   "Any private person",
+   "The accused himself"
+  ],
+  "optionsBangla": null,
+  "correctAnswer": 1,
+  "explanationEnglish": "Section 24 requires the inducement, threat or promise to have reference to the charge and to proceed from a person in authority.",
+  "explanationBangla": null,
+  "difficulty": "medium",
+  "xpReward": 5,
+  "source": "starter"
+ },
+ {
+  "questionId": "q009",
+  "sectionId": "s32",
+  "chapterId": "ch03",
+  "questionTextEnglish": "Section 32(1) makes relevant a statement by a person about which matter?",
+  "questionTextBangla": null,
+  "optionsEnglish": [
+   "His property",
+   "The cause of his death or circumstances of the transaction that resulted in his death",
+   "His age",
+   "His reputation"
+  ],
+  "optionsBangla": null,
+  "correctAnswer": 1,
+  "explanationEnglish": "Section 32(1) covers statements as to the cause of death, or any circumstances of the transaction which resulted in death, where the cause of death comes into question.",
+  "explanationBangla": null,
+  "difficulty": "easy",
+  "xpReward": 5,
+  "source": "starter"
+ },
+ {
+  "questionId": "q010",
+  "sectionId": "s32",
+  "chapterId": "ch03",
+  "questionTextEnglish": "Under section 32(1), must the maker have been under expectation of death when the statement was made?",
+  "questionTextBangla": null,
+  "optionsEnglish": [
+   "Yes, always",
+   "No - such statements are relevant whether or not he was under expectation of death",
+   "Only in civil proceedings",
+   "Only if made to a Magistrate"
+  ],
+  "optionsBangla": null,
+  "correctAnswer": 1,
+  "explanationEnglish": "The text of s.32(1) says such statements are relevant whether or not the person was under expectation of death, whatever the nature of the proceeding.",
+  "explanationBangla": null,
+  "difficulty": "medium",
+  "xpReward": 5,
+  "source": "starter"
+ },
+ {
+  "questionId": "q011",
+  "sectionId": "s102",
+  "chapterId": "ch07",
+  "questionTextEnglish": "Under section 102, on whom does the burden of proof in a suit or proceeding lie?",
+  "questionTextBangla": null,
+  "optionsEnglish": [
+   "The person who would fail if no evidence at all were given on either side",
+   "Always the defendant",
+   "Always the plaintiff",
+   "The Court"
+  ],
+  "optionsBangla": null,
+  "correctAnswer": 0,
+  "explanationEnglish": "Section 102 places the burden on the person who would fail if no evidence were given on either side.",
+  "explanationBangla": null,
+  "difficulty": "easy",
+  "xpReward": 5,
+  "source": "starter"
+ },
+ {
+  "questionId": "q012",
+  "sectionId": "s106",
+  "chapterId": "ch07",
+  "questionTextEnglish": "Under section 106, who must prove a fact that is especially within the knowledge of a person?",
+  "questionTextBangla": null,
+  "optionsEnglish": [
+   "The opposite party",
+   "That person himself",
+   "The Court",
+   "The prosecution always"
+  ],
+  "optionsBangla": null,
+  "correctAnswer": 1,
+  "explanationEnglish": "Section 106: when any fact is especially within the knowledge of any person, the burden of proving that fact is upon him.",
+  "explanationBangla": null,
+  "difficulty": "easy",
+  "xpReward": 5,
+  "source": "starter"
+ },
+ {
+  "questionId": "q013",
+  "sectionId": "s115",
+  "chapterId": "ch08",
+  "questionTextEnglish": "What does section 115 prevent a person from doing?",
+  "questionTextBangla": null,
+  "optionsEnglish": [
+   "Denying the truth of a thing he intentionally caused another to believe and act upon",
+   "Calling any witness",
+   "Proving a document",
+   "Cross-examining"
+  ],
+  "optionsBangla": null,
+  "correctAnswer": 0,
+  "explanationEnglish": "Estoppel (s.115): a person who by declaration, act or omission intentionally caused another to believe a thing and act on it cannot deny its truth in a suit or proceeding between them or their representatives.",
+  "explanationBangla": null,
+  "difficulty": "easy",
+  "xpReward": 5,
+  "source": "starter"
+ },
+ {
+  "questionId": "q014",
+  "sectionId": "s118",
+  "chapterId": "ch09",
+  "questionTextEnglish": "Under section 118, who is competent to testify?",
+  "questionTextBangla": null,
+  "optionsEnglish": [
+   "Only adults",
+   "All persons, unless prevented from understanding questions or giving rational answers (by tender years, extreme old age, disease or similar cause)",
+   "Only literate persons",
+   "Only persons who take an oath in Court"
+  ],
+  "optionsBangla": null,
+  "correctAnswer": 1,
+  "explanationEnglish": "Section 118 makes all persons competent unless the Court considers they are so prevented; a lunatic is not incompetent unless prevented by lunacy (Explanation).",
+  "explanationBangla": null,
+  "difficulty": "medium",
+  "xpReward": 5,
+  "source": "starter"
+ },
+ {
+  "questionId": "q015",
+  "sectionId": "s122",
+  "chapterId": "ch10",
+  "questionTextEnglish": "Section 122 protects which kind of communication?",
+  "questionTextBangla": null,
+  "optionsEnglish": [
+   "Communications between spouses made during marriage",
+   "Communications between neighbours",
+   "Communications to a police officer",
+   "Communications in open Court"
+  ],
+  "optionsBangla": null,
+  "correctAnswer": 0,
+  "explanationEnglish": "Section 122: a person who is or has been married cannot be compelled (or, without consent, permitted) to disclose a communication made during marriage, subject to the exceptions in the section.",
+  "explanationBangla": null,
+  "difficulty": "medium",
+  "xpReward": 5,
+  "source": "starter"
+ },
+ {
+  "questionId": "q016",
+  "sectionId": "s126",
+  "chapterId": "ch10",
+  "questionTextEnglish": "Under section 126, an Advocate may disclose client communications made in the course of employment only with what?",
+  "questionTextBangla": null,
+  "optionsEnglish": [
+   "The Court's silence",
+   "His client's express consent (subject to the Provisos)",
+   "A police request",
+   "Never in any case"
+  ],
+  "optionsBangla": null,
+  "correctAnswer": 1,
+  "explanationEnglish": "Section 126 bars disclosure unless with the client's express consent, subject to the provisos in the section.",
+  "explanationBangla": null,
+  "difficulty": "medium",
+  "xpReward": 5,
+  "source": "starter"
+ },
+ {
+  "questionId": "q017",
+  "sectionId": "s4",
+  "chapterId": "ch04",
+  "questionTextEnglish": "What does \"conclusive proof\" mean under section 4?",
+  "questionTextBangla": null,
+  "optionsEnglish": [
+   "The Court may call for more proof",
+   "On proof of one fact, the Court shall regard the other as proved and not allow evidence to disprove it",
+   "The fact is presumed until disproved",
+   "The fact is irrelevant"
+  ],
+  "optionsBangla": null,
+  "correctAnswer": 1,
+  "explanationEnglish": "Section 4: when one fact is declared conclusive proof of another, the Court shall on proof of the one regard the other as proved and shall not allow evidence to disprove it.",
+  "explanationBangla": null,
+  "difficulty": "medium",
+  "xpReward": 5,
+  "source": "starter"
+ },
+ {
+  "questionId": "q018",
+  "sectionId": "s45",
+  "chapterId": "ch05",
+  "questionTextEnglish": "Under section 45 (as amended in 2022), whose opinions are relevant on points such as foreign law, science, physical or forensic evidence or digital record, art, handwriting or finger impression?",
+  "questionTextBangla": null,
+  "optionsEnglish": [
+   "Any witness",
+   "Persons specially skilled in the matter (experts)",
+   "Only the Judge",
+   "Only the parties"
+  ],
+  "optionsBangla": null,
+  "correctAnswer": 1,
+  "explanationEnglish": "Section 45: the opinions of persons specially skilled in the relevant field are relevant facts; such persons are called experts.",
+  "explanationBangla": null,
+  "difficulty": "easy",
+  "xpReward": 5,
+  "source": "starter"
+ }
+]

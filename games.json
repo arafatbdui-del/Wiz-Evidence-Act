@@ -1,0 +1,177 @@
+[
+ {
+  "gameId": "g001",
+  "chapterId": "ch02",
+  "sectionId": "s25",
+  "gameType": "true_false",
+  "title": "Confessions: true or false?",
+  "instructions": "Decide whether each statement matches the Act.",
+  "xpReward": 15,
+  "content": {
+   "items": [
+    {
+     "statement": "No confession made to a police-officer shall be proved as against a person accused of any offence (s.25).",
+     "answer": true,
+     "explanation": "This is the text of s.25."
+    },
+    {
+     "statement": "A confession in police custody is always admissible if the accused signs it.",
+     "answer": false,
+     "explanation": "s.26 requires the immediate presence of a Magistrate."
+    },
+    {
+     "statement": "An inducement, threat or promise must have reference to the charge for s.24 to apply.",
+     "answer": true,
+     "explanation": "s.24 requires reference to the charge against the accused."
+    }
+   ]
+  }
+ },
+ {
+  "gameId": "g002",
+  "chapterId": "ch07",
+  "sectionId": "s101",
+  "gameType": "true_false",
+  "title": "Burden of proof: true or false?",
+  "instructions": "Decide whether each statement matches the Act.",
+  "xpReward": 15,
+  "content": {
+   "items": [
+    {
+     "statement": "The burden lies on the person who would fail if no evidence were given on either side (s.102).",
+     "answer": true,
+     "explanation": "This is s.102."
+    },
+    {
+     "statement": "A fact especially within a person's knowledge must always be proved by the other side.",
+     "answer": false,
+     "explanation": "s.106 puts that burden on the person with the knowledge."
+    }
+   ]
+  }
+ },
+ {
+  "gameId": "g003",
+  "chapterId": "ch02",
+  "sectionId": "s25",
+  "gameType": "match",
+  "title": "Match the legal term",
+  "instructions": "Match each provision to its effect.",
+  "xpReward": 15,
+  "content": {
+   "pairs": [
+    {
+     "left": "s.25",
+     "right": "Confession to a police-officer cannot be proved against the accused"
+    },
+    {
+     "left": "s.32(1)",
+     "right": "Statement as to cause of death can be relevant"
+    },
+    {
+     "left": "s.106",
+     "right": "Burden on the person with special knowledge"
+    },
+    {
+     "left": "s.115",
+     "right": "Estoppel by declaration, act or omission"
+    }
+   ]
+  }
+ },
+ {
+  "gameId": "g004",
+  "chapterId": "ch02",
+  "sectionId": "s25",
+  "gameType": "fill_blank",
+  "title": "Fill in the missing word",
+  "instructions": "Pick the word that completes the text of the Act.",
+  "xpReward": 15,
+  "content": {
+   "items": [
+    {
+     "prompt": "No confession made to a police-officer shall be ____ as against a person accused of any offence.",
+     "options": [
+      "proved",
+      "admired",
+      "denied",
+      "forgotten"
+     ],
+     "answer": 0,
+     "ref": "s.25"
+    },
+    {
+     "prompt": "When any fact is especially within the ____ of any person, the burden of proving that fact is upon him.",
+     "options": [
+      "custody",
+      "knowledge",
+      "possession",
+      "memory"
+     ],
+     "answer": 1,
+     "ref": "s.106"
+    }
+   ]
+  }
+ },
+ {
+  "gameId": "g005",
+  "chapterId": "ch08",
+  "sectionId": "s115",
+  "gameType": "identify_section",
+  "title": "Identify the relevant section",
+  "instructions": "Read the situation and choose the section.",
+  "xpReward": 15,
+  "content": {
+   "items": [
+    {
+     "scenario": "A tells the police, in custody, that he committed the theft. Which section bars proving this against A?",
+     "options": [
+      "s.25",
+      "s.106",
+      "s.115",
+      "s.122"
+     ],
+     "answer": 0,
+     "explanation": "s.25 - confession to a police-officer."
+    },
+    {
+     "scenario": "A falsely and intentionally leads B to believe land is A's, and B buys it. Which doctrine stops A denying that later?",
+     "options": [
+      "s.25",
+      "s.32",
+      "s.115",
+      "s.126"
+     ],
+     "answer": 2,
+     "explanation": "s.115 - estoppel (the section's own illustration)."
+    }
+   ]
+  }
+ },
+ {
+  "gameId": "g006",
+  "chapterId": "ch07",
+  "sectionId": "s106",
+  "gameType": "case",
+  "title": "Case scenario challenge",
+  "instructions": "Read the case and answer.",
+  "xpReward": 20,
+  "content": {
+   "items": [
+    {
+     "scenario": "A is charged with travelling on a railway without a ticket. Whether he had a ticket is a fact especially within his knowledge.",
+     "question": "On whom does the burden of proving he had a ticket lie?",
+     "options": [
+      "The railway",
+      "A himself",
+      "The Court",
+      "A witness"
+     ],
+     "answer": 1,
+     "explanation": "s.106 illustration (b): the burden is on him."
+    }
+   ]
+  }
+ }
+]
