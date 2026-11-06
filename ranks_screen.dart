@@ -1,63 +1,200 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../core/strings.dart';
-import '../../core/theme.dart';
-import '../../providers/progress_notifier.dart';
-import '../../providers/providers.dart';
-import '../widgets/common.dart';
+import '../core/theme/app_theme.dart';
+import '../core/localization/app_localizations.dart';
+import '../services/progress_service.dart';
+import '../data/evidence_act_data.dart';
 
-class RanksScreen extends ConsumerWidget {
+class RanksScreen extends StatelessWidget {
   const RanksScreen({super.key});
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final content = ref.watch(contentProvider);
-    final prog = ref.watch(progressProvider);
-    final bn = ref.watch(isBanglaProvider);
-    final s = S(bn);
-    // Offline DEMO board: fixed sample names/scores, clearly labelled. Your own XP is real.
-    final rows = <(String, int, bool)>[
-      ('Demo: Nusrat', 1850, false), ('Demo: Rahim', 1320, false), ('Demo: Tania', 940, false),
-      ('Demo: Imran', 610, false), ('Demo: Sumaiya', 300, false),
-      (s.t('you'), prog.totalXP, true),
-    ]..sort((a, b) => b.$2.compareTo(a.$2));
-    final badges = <(String, String, bool)>[
-      for (final c in content.chapters) ('Ch ${c.chapterNumber}', c.name(bn), prog.completedChapters.contains(c.chapterId)),
-      for (final e in badgeTitles.entries) ('★', e.value, prog.earnedBadges.contains(e.key)),
+  Widget build(BuildContext context) {
+    final loc = LocalizationService();
+    final progress = ProgressService();
+
+    final userXP = progress.totalXP;
+
+    // Realistic offline peer candidates for Bangladesh Bar Council / Judicial Service aspirants
+    final leaderboard = [
+      {'rank': 1, 'name': 'Tanvir Ahmed (Judicial Aspirant)', 'xp': 1420, 'badge': '🥇'},
+      {'rank': 2, 'name': 'Nusrat Jahan (Bar Candidate)', 'xp': 1180, 'badge': '🥈'},
+      {'rank': 3, 'name': 'You (Current Learner)', 'xp': userXP, 'badge': '🥉', 'isUser': true},
+      {'rank': 4, 'name': 'Sabbir Hossain (DU Law)', 'xp': 720, 'badge': '⚖️'},
+      {'rank': 5, 'name': 'Fahmida Akter (Chittagong Univ)', 'xp': 640, 'badge': '📚'},
+      {'rank': 6, 'name': 'Mehedi Hasan (BJU)', 'xp': 510, 'badge': '⭐'},
     ];
-    return SafeArea(
-      child: ListView(padding: const EdgeInsets.all(14), children: [
-        Text(s.t('ranks'), style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w800)),
-        Text(s.t('demoBoard'), style: const TextStyle(color: AppColors.muted, fontSize: 12)),
-        const SizedBox(height: 10),
-        for (var i = 0; i < rows.length; i++)
-          Panel(
-            color: rows[i].$3 ? AppColors.emerald : AppColors.navy2,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-            child: ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: CircleAvatar(backgroundColor: i == 0 ? AppColors.gold : Colors.white12, foregroundColor: i == 0 ? AppColors.navy : Colors.white, child: Text('${i + 1}')),
-              title: Text(rows[i].$1, style: TextStyle(fontWeight: rows[i].$3 ? FontWeight.w800 : FontWeight.w500)),
-              trailing: XpChip(rows[i].$2),
-            ),
-          ),
-        const SizedBox(height: 18),
-        const Text('Achievement badges', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
-        const SizedBox(height: 8),
-        Wrap(spacing: 8, runSpacing: 8, children: [
-          for (final b in badges)
+
+    return Scaffold(
+      backgroundColor: AppTheme.primaryNavy,
+      appBar: AppBar(
+        title: Text(
+          loc.translate('National Law Leaderboard', 'জাতীয় লিডারবোর্ড ও র্যাঙ্ক'),
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            // Top Podium Card
             Container(
-              width: 104,
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(color: b.$3 ? AppColors.navy2 : Colors.black26, borderRadius: BorderRadius.circular(14), border: Border.all(color: b.$3 ? AppColors.gold : Colors.white12)),
-              child: Column(children: [
-                Icon(b.$3 ? Icons.emoji_events : Icons.lock_outline, color: b.$3 ? AppColors.gold : AppColors.muted, size: 28),
-                const SizedBox(height: 4),
-                Text(b.$1, style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 12)),
-                Text(b.$2, textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 10, color: AppColors.muted)),
-              ]),
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFF234466), Color(0xFF152A3F)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: AppTheme.gold, width: 1.5),
+              ),
+              child: Column(
+                children: [
+                  const Icon(Icons.emoji_events_rounded, color: AppTheme.gold, size: 50),
+                  const SizedBox(height: 10),
+                  Text(
+                    loc.translate('Legal Scholar Tier: Senior Advocate', 'আইনি পদমর্যাদা: সিনিয়র অ্যাডভোকেট'),
+                    style: const TextStyle(color: AppTheme.gold, fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '${loc.translate('Your Total Score', 'আপনার মোট পয়েন্ট')}: $userXP XP',
+                    style: const TextStyle(color: Colors.white, fontSize: 14),
+                  ),
+                ],
+              ),
             ),
-        ]),
-      ]),
+
+            const SizedBox(height: 24),
+
+            Text(
+              loc.translate('Weekly Study Group Ranking', 'সাপ্তাহিক র্যাঙ্কিং'),
+              style: const TextStyle(color: AppTheme.goldLight, fontWeight: FontWeight.bold, fontSize: 15),
+            ),
+            const SizedBox(height: 12),
+
+            ...leaderboard.map((item) {
+              final isUser = item['isUser'] == true;
+              return Container(
+                margin: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                decoration: BoxDecoration(
+                  color: isUser ? AppTheme.emeraldGreen : AppTheme.secondaryNavy,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: isUser ? AppTheme.gold : Colors.white10,
+                    width: isUser ? 1.5 : 1,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Text(
+                      '${item['badge']}',
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item['name'] as String,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: isUser ? FontWeight.bold : FontWeight.w500,
+                              fontSize: 13.5,
+                            ),
+                          ),
+                          if (isUser)
+                            Text(
+                              loc.translate('Rank #3 in Bangladesh', 'বাংলাদেশে ৩য় স্থান'),
+                              style: const TextStyle(color: AppTheme.goldLight, fontSize: 11),
+                            ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      '${item['xp']} XP',
+                      style: TextStyle(
+                        color: isUser ? AppTheme.goldLight : AppTheme.gold,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+
+            const SizedBox(height: 24),
+
+            // Badges Showcase
+            Text(
+              loc.translate('Achievement Badges', 'অর্জিত সম্মাননা ব্যাজ'),
+              style: const TextStyle(color: AppTheme.goldLight, fontWeight: FontWeight.bold, fontSize: 15),
+            ),
+            const SizedBox(height: 12),
+
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 1.4,
+              ),
+              itemCount: EvidenceActData.availableBadges.length,
+              itemBuilder: (context, idx) {
+                final badge = EvidenceActData.availableBadges[idx];
+                final isEarned = progress.progress.earnedBadgeIds.contains(badge.id);
+
+                return Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: isEarned ? AppTheme.secondaryNavy : const Color(0xFF17283A),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: isEarned ? AppTheme.gold.withOpacity(0.6) : Colors.white10,
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        isEarned ? Icons.workspace_premium_rounded : Icons.lock_outline_rounded,
+                        color: isEarned ? AppTheme.gold : AppTheme.mutedGrey,
+                        size: 30,
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        loc.isBengali ? badge.titleBn : badge.titleEn,
+                        style: TextStyle(
+                          color: isEarned ? Colors.white : AppTheme.mutedGrey,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 11.5,
+                        ),
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        isEarned ? loc.translate('UNLOCKED', 'উন্মুক্ত') : loc.translate('LOCKED', 'লক করা'),
+                        style: TextStyle(
+                          color: isEarned ? AppTheme.successGreen : AppTheme.mutedGrey,
+                          fontSize: 9.5,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

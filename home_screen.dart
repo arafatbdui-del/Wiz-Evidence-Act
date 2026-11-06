@@ -1,215 +1,379 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../core/strings.dart';
-import '../../core/theme.dart';
-import '../../models/models.dart';
-import '../../providers/providers.dart';
-import '../widgets/common.dart';
+import '../core/theme/app_theme.dart';
+import '../core/localization/app_localizations.dart';
+import '../services/progress_service.dart';
+import '../data/evidence_act_data.dart';
+import '../models/gaming_chapter.dart';
+import '../widgets/circular_progress_card.dart';
+import '../widgets/chapter_card.dart';
+import '../widgets/achievement_banner.dart';
 import 'chapter_overview_screen.dart';
 
-class HomeScreen extends ConsumerWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  final Function(int)? onSwitchTab;
+
+  const HomeScreen({super.key, this.onSwitchTab});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final content = ref.watch(contentProvider);
-    final prog = ref.watch(progressProvider);
-    final n = ref.read(progressProvider.notifier);
-    final bn = ref.watch(isBanglaProvider);
-    final s = S(bn);
-    final current = n.currentChapter;
-    final pct = (n.courseFraction * 100).round();
-
-    return Column(children: [
-      Expanded(
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0xFF1B3550), AppColors.navy]),
-          ),
-          child: SafeArea(
-            bottom: false,
-            child: ListView(padding: const EdgeInsets.fromLTRB(14, 8, 14, 12), children: [
-              _Header(bn: bn, s: s, notifications: prog.notifications),
-              const SizedBox(height: 18),
-              Text(s.t('journey'), style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w800)),
-              const SizedBox(height: 4),
-              Text(s.t('journeySub'), style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 15)),
-              Container(margin: const EdgeInsets.only(top: 6, bottom: 14), height: 3, width: 90, decoration: BoxDecoration(color: AppColors.gold, borderRadius: BorderRadius.circular(2))),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                decoration: BoxDecoration(color: AppColors.navy.withOpacity(0.85), borderRadius: BorderRadius.circular(18), border: Border.all(color: AppColors.muted.withOpacity(0.4))),
-                child: Row(children: [
-                  ProgressRing(value: n.courseFraction, label: '$pct%'),
-                  const SizedBox(width: 14),
-                  Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(s.t('courseCompletion'), style: const TextStyle(fontSize: 15)),
-                    const SizedBox(height: 4),
-                    Text.rich(TextSpan(children: [
-                      TextSpan(text: '${prog.completedChapters.length}', style: const TextStyle(color: AppColors.gold, fontWeight: FontWeight.w800, fontSize: 18)),
-                      TextSpan(text: ' / ${content.chapters.length} ${s.t('chapters')}', style: const TextStyle(fontSize: 16)),
-                    ])),
-                  ])),
-                  Container(width: 1, height: 52, color: Colors.white24),
-                  const SizedBox(width: 12),
-                  const Icon(Icons.star_rounded, color: AppColors.gold, size: 44),
-                  const SizedBox(width: 8),
-                  Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(s.t('totalXp'), style: const TextStyle(fontSize: 13)),
-                    Text('${prog.totalXP}', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w800)),
-                  ]),
-                ]),
-              ),
-              const SizedBox(height: 12),
-              for (final c in content.chapters) _ChapterCard(chapter: c, isCurrent: current?.chapterId == c.chapterId),
-            ]),
-          ),
-        ),
-      ),
-      Container(
-        margin: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-        padding: const EdgeInsets.fromLTRB(12, 8, 8, 8),
-        decoration: BoxDecoration(color: AppColors.navy, borderRadius: BorderRadius.circular(16), border: Border.all(color: AppColors.gold, width: 1.2)),
-        child: Row(children: [
-          const Icon(Icons.emoji_events, color: AppColors.gold, size: 40),
-          const SizedBox(width: 10),
-          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(s.t('banner'), style: const TextStyle(fontSize: 13)),
-            Text(s.t('badge'), style: const TextStyle(color: AppColors.gold, fontWeight: FontWeight.w800, fontSize: 14)),
-          ])),
-          FilledButton(
-            style: FilledButton.styleFrom(backgroundColor: AppColors.gold, foregroundColor: AppColors.navy, padding: const EdgeInsets.symmetric(horizontal: 14)),
-            onPressed: current == null ? null : () => Navigator.push(context, MaterialPageRoute(builder: (_) => ChapterOverviewScreen(chapterId: current.chapterId))),
-            child: Row(mainAxisSize: MainAxisSize.min, children: [Text(s.t('start'), style: const TextStyle(fontWeight: FontWeight.w800)), const Icon(Icons.chevron_right)]),
-          ),
-        ]),
-      ),
-    ]);
-  }
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _Header extends ConsumerWidget {
-  final bool bn;
-  final S s;
-  final List<String> notifications;
-  const _Header({required this.bn, required this.s, required this.notifications});
+class _HomeScreenState extends State<HomeScreen> {
+  final LocalizationService _loc = LocalizationService();
+  final ProgressService _progress = ProgressService();
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final n = ref.read(progressProvider.notifier);
-    return Row(children: [
-      const Icon(Icons.balance, color: AppColors.gold, size: 46),
-      const SizedBox(width: 8),
-      Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text('Evidence Act BD', style: TextStyle(color: AppColors.gold, fontSize: 22, fontWeight: FontWeight.w800, fontFamily: 'serif')),
-        Text(s.t('tagline'), maxLines: 2, style: const TextStyle(fontSize: 10.5, fontStyle: FontStyle.italic)),
-      ])),
-      Container(
-        padding: const EdgeInsets.all(3),
-        decoration: BoxDecoration(color: AppColors.navy, borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white24)),
-        child: Row(children: [
-          _lang('বাংলা', bn, () => n.setLanguage('bn')),
-          _lang('English', !bn, () => n.setLanguage('en')),
-        ]),
+  void initState() {
+    super.initState();
+    _loc.addListener(_onServiceUpdate);
+    _progress.addListener(_onServiceUpdate);
+  }
+
+  @override
+  void dispose() {
+    _loc.removeListener(_onServiceUpdate);
+    _progress.removeListener(_onServiceUpdate);
+    super.dispose();
+  }
+
+  void _onServiceUpdate() {
+    if (mounted) setState(() {});
+  }
+
+  void _openChapter(GamingChapter chapter) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => ChapterOverviewScreen(chapter: chapter),
       ),
-      const SizedBox(width: 6),
-      Stack(clipBehavior: Clip.none, children: [
-        IconButton(
-          icon: const Icon(Icons.notifications_none, size: 28),
-          onPressed: () => showModalBottomSheet(
-            context: context,
-            backgroundColor: AppColors.navy2,
-            builder: (_) => SafeArea(
-              child: ListView(padding: const EdgeInsets.all(16), children: [
-                Text(s.t('notifications'), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
-                const SizedBox(height: 8),
-                if (notifications.isEmpty) const Text('Nothing yet. Finish a lesson or quiz to earn achievements.'),
-                for (final m in notifications) ListTile(dense: true, leading: const Icon(Icons.emoji_events, color: AppColors.gold), title: Text(m)),
-              ]),
+    );
+  }
+
+  void _showNotificationDialog() {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: AppTheme.secondaryNavy,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Row(
+          children: [
+            const Icon(Icons.notifications_active_rounded, color: AppTheme.gold),
+            const SizedBox(width: 8),
+            Text(
+              _loc.translate('Legal Notifications', 'আইনি নোটিফিকেশন'),
+              style: const TextStyle(color: Colors.white, fontSize: 18),
+            ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildNotificationItem(
+              '⚖️ Evidence (Amendment) Act 2022',
+              _loc.translate(
+                'Digital records (65B) & Forensic DNA (73B) modules are live!',
+                'ডিজিটাল রেকর্ড (৬৫খ) ও ফরেনসিক ডিএনএ (৭৩খ) মডিউল উন্মুক্ত হয়েছে!',
+              ),
+            ),
+            const Divider(color: Colors.white24, height: 16),
+            _buildNotificationItem(
+              '🔥 4-Day Daily Streak!',
+              _loc.translate(
+                'Keep up your daily practice to earn the Streak Master Badge.',
+                'প্রতিদিনের অনুশীলন অব্যাহত রেখে স্ট্রিক মাস্টার ব্যাজ অর্জন করুন।',
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(
+              _loc.translate('Close', 'বন্ধ করুন'),
+              style: const TextStyle(color: AppTheme.gold),
             ),
           ),
-        ),
-        if (notifications.isNotEmpty)
-          Positioned(right: 4, top: 4, child: CircleAvatar(radius: 9, backgroundColor: AppColors.error, child: Text('${notifications.length > 9 ? 9 : notifications.length}', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w800)))),
-      ]),
-    ]);
+        ],
+      ),
+    );
   }
 
-  Widget _lang(String t, bool on, VoidCallback f) => GestureDetector(
-        onTap: f,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          decoration: BoxDecoration(color: on ? AppColors.gold : Colors.transparent, borderRadius: BorderRadius.circular(16)),
-          child: Text(t, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: on ? AppColors.navy : Colors.white)),
-        ),
-      );
-}
-
-class _ChapterCard extends ConsumerWidget {
-  final GamingChapter chapter;
-  final bool isCurrent;
-  const _ChapterCard({required this.chapter, required this.isCurrent});
+  Widget _buildNotificationItem(String title, String desc) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title, style: const TextStyle(color: AppTheme.goldLight, fontWeight: FontWeight.bold, fontSize: 13.5)),
+        const SizedBox(height: 3),
+        Text(desc, style: const TextStyle(color: Colors.white70, fontSize: 12)),
+      ],
+    );
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(progressProvider);
-    final n = ref.read(progressProvider.notifier);
-    final content = ref.watch(contentProvider);
-    final bn = ref.watch(isBanglaProvider);
-    final s = S(bn);
-    final unlocked = n.isUnlocked(chapter);
-    final done = n.isChapterCompleted(chapter.chapterId);
-    final pr = n.chapterProgress(chapter);
-    final nums = content.sectionsOf(chapter).map((e) => e.sectionNumber).toList();
+  Widget build(BuildContext context) {
+    final bool isBN = _loc.isBengali;
 
-    Color bg, fg;
-    if (!unlocked) { bg = const Color(0xFFD5D8DD); fg = const Color(0xFF5E6B78); }
-    else if (isCurrent) { bg = AppColors.emerald; fg = Colors.white; }
-    else { bg = AppColors.ivory; fg = AppColors.navy; }
+    return Scaffold(
+      backgroundColor: AppTheme.primaryNavy,
+      body: SafeArea(
+        child: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            // Top App Bar / Header
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Brand Logo & Title
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.balance_rounded,
+                          color: AppTheme.gold,
+                          size: 34,
+                        ),
+                        const SizedBox(width: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _loc.appName,
+                              style: const TextStyle(
+                                color: AppTheme.gold,
+                                fontSize: 19,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.3,
+                              ),
+                            ),
+                            Text(
+                              _loc.appTagline,
+                              style: const TextStyle(
+                                color: AppTheme.goldLight,
+                                fontSize: 10,
+                                fontStyle: FontStyle.italic,
+                                letterSpacing: 0.1,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
-        onTap: () {
-          if (!unlocked) {
-            toast(context, '${s.t('unlocksAfter')} ${chapter.chapterNumber - 1}');
-            return;
-          }
-          Navigator.push(context, MaterialPageRoute(builder: (_) => ChapterOverviewScreen(chapterId: chapter.chapterId)));
-        },
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          decoration: BoxDecoration(
-            color: bg,
-            borderRadius: BorderRadius.circular(16),
-            border: isCurrent ? Border.all(color: AppColors.success, width: 2) : null,
-            boxShadow: const [BoxShadow(color: Color(0x44000000), blurRadius: 8, offset: Offset(0, 3))],
-          ),
-          child: Row(children: [
-            CircleAvatar(radius: 14, backgroundColor: !unlocked ? const Color(0xFF6D7A88) : (isCurrent ? AppColors.success : AppColors.navy),
-                child: Text('${chapter.chapterNumber}', style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w800))),
-            const SizedBox(width: 10),
-            Icon(chapterIcon(chapter.icon), size: 34, color: isCurrent ? Colors.white : (unlocked ? AppColors.navy2 : const Color(0xFF7C8793))),
-            const SizedBox(width: 10),
-            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text('${chapter.chapterNumber}. ${chapter.name(bn)}', maxLines: 2, overflow: TextOverflow.ellipsis, style: TextStyle(color: fg, fontSize: 15.5, fontWeight: FontWeight.w800)),
-              Text('${s.t('sections')}: ${sectionRangeLabel(nums)}', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: fg.withOpacity(0.9), fontSize: 12)),
-              const SizedBox(height: 4),
-              if (!unlocked)
-                Row(children: [Icon(Icons.lock, size: 12, color: fg), const SizedBox(width: 4), Text('${s.t('unlocksAfter')} ${chapter.chapterNumber - 1}', style: TextStyle(color: fg, fontSize: 11))])
-              else
-                Row(children: [
-                  Expanded(child: Bar(value: pr.total == 0 ? 0 : pr.done / pr.total, color: isCurrent ? Colors.white : AppColors.gold, track: isCurrent ? Colors.white24 : const Color(0x22000000), height: 6)),
-                  const SizedBox(width: 8),
-                  Text('${pr.done} / ${pr.total}', style: TextStyle(color: fg, fontSize: 11, fontWeight: FontWeight.w700)),
-                ]),
-            ])),
-            const SizedBox(width: 6),
-            Column(mainAxisSize: MainAxisSize.min, children: [
-              if (done) const Icon(Icons.verified, color: AppColors.gold, size: 22) else Icon(!unlocked ? Icons.lock : Icons.emoji_events, size: 22, color: !unlocked ? const Color(0xFF7C8793) : AppColors.gold),
-              Text('${chapter.bonusXP} XP', style: TextStyle(color: !unlocked ? const Color(0xFF7C8793) : (isCurrent ? Colors.white : AppColors.navy), fontWeight: FontWeight.w800, fontSize: 13)),
-            ]),
-            Icon(Icons.chevron_right, color: fg),
-          ]),
+                    // Language Toggle & Notification Bell
+                    Row(
+                      children: [
+                        // Language Pill Switcher
+                        GestureDetector(
+                          onTap: () => _loc.toggleLanguage(),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF1B3247),
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: AppTheme.gold.withOpacity(0.5),
+                                width: 1,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                  decoration: BoxDecoration(
+                                    color: isBN ? AppTheme.gold : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  child: Text(
+                                    'বাংলা',
+                                    style: TextStyle(
+                                      color: isBN ? AppTheme.primaryNavy : Colors.white70,
+                                      fontSize: 11,
+                                      fontWeight: isBN ? FontWeight.bold : FontWeight.normal,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                  decoration: BoxDecoration(
+                                    color: !isBN ? AppTheme.gold : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  child: Text(
+                                    'English',
+                                    style: TextStyle(
+                                      color: !isBN ? AppTheme.primaryNavy : Colors.white70,
+                                      fontSize: 11,
+                                      fontWeight: !isBN ? FontWeight.bold : FontWeight.normal,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+
+                        // Notification Icon with Badge "2"
+                        Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            IconButton(
+                              onPressed: _showNotificationDialog,
+                              icon: const Icon(
+                                Icons.notifications_none_rounded,
+                                color: Colors.white,
+                                size: 26,
+                              ),
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                            ),
+                            Positioned(
+                              top: -2,
+                              right: -4,
+                              child: Container(
+                                padding: const EdgeInsets.all(4),
+                                decoration: const BoxDecoration(
+                                  color: AppTheme.errorRed,
+                                  shape: BoxShape.circle,
+                                ),
+                                constraints: const BoxConstraints(
+                                  minWidth: 16,
+                                  minHeight: 16,
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    '2',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 9.5,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // Main Heading: "Your Legal Journey"
+            SliverToBoxAdapter(
+              child: Stack(
+                children: [
+                  // Subtle court building silhouette illustration background
+                  Positioned(
+                    right: 8,
+                    top: -10,
+                    child: Opacity(
+                      opacity: 0.14,
+                      child: Icon(
+                        Icons.account_balance_rounded,
+                        size: 115,
+                        color: Colors.white.withOpacity(0.9),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 6),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _loc.yourLegalJourney,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.3,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          _loc.legalJourneySubtitle,
+                          style: const TextStyle(
+                            color: Color(0xFFBAC7D5),
+                            fontSize: 12.5,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        // Golden decorative curve swoosh
+                        Container(
+                          width: 42,
+                          height: 3,
+                          decoration: BoxDecoration(
+                            color: AppTheme.gold,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Progress Summary Card (27% Completion, 3/11 Chapters, Total XP 850)
+            SliverToBoxAdapter(
+              child: CircularProgressCard(
+                completedChapters: _progress.completedChaptersCount,
+                totalChapters: _progress.totalChaptersCount,
+                totalXP: _progress.totalXP,
+              ),
+            ),
+
+            const SliverToBoxAdapter(
+              child: SizedBox(height: 6),
+            ),
+
+            // The 11 Thematic Gaming Chapters List
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final chapter = EvidenceActData.chapters[index];
+                  final status = _progress.getChapterStatus(chapter);
+                  final completedSecs = _progress.getCompletedSectionsForChapter(chapter);
+                  final totalSecs = chapter.sectionIds.length;
+
+                  return ChapterCard(
+                    chapter: chapter,
+                    status: status,
+                    completedSections: completedSecs,
+                    totalSections: totalSecs,
+                    onTap: () => _openChapter(chapter),
+                  );
+                },
+                childCount: EvidenceActData.chapters.length,
+              ),
+            ),
+
+            // Bottom Achievement Banner
+            SliverToBoxAdapter(
+              child: AchievementBanner(
+                onStartLearning: () {
+                  // Open first unlocked in-progress or available chapter
+                  final activeChapter = EvidenceActData.chapters.firstWhere(
+                    (c) => _progress.getChapterStatus(c) != ChapterStatus.locked,
+                    orElse: () => EvidenceActData.chapters.first,
+                  );
+                  _openChapter(activeChapter);
+                },
+              ),
+            ),
+
+            // Bottom padding for scroll view
+            const SliverToBoxAdapter(
+              child: SizedBox(height: 20),
+            ),
+          ],
         ),
       ),
     );
